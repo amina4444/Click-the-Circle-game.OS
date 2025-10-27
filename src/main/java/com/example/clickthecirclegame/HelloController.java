@@ -64,7 +64,14 @@ public class HelloController {
 
     private void spawnCircle() {
         double radius = 10 + Math.random() * 30;
-        Circle circle = new Circle(radius, Color.color(Math.random(),Math.random(),Math.random()));
+        boolean isRed = Math.random() < 0.2;
+        Color color;
+        if (isRed) {
+            color = Color.RED;
+        } else {
+            color = Color.color(Math.random(), Math.random(), Math.random());
+        }
+        Circle circle = new Circle(radius, color);
         circle.setLayoutX(Math.random() * (gameArea.getWidth() - 2 * radius) + radius);
         circle.setLayoutY(Math.random() * (gameArea.getHeight()- 2 * radius) + radius);
         circle.setScaleX(0);
@@ -76,7 +83,11 @@ public class HelloController {
         int points = (int) Math.round((40 - radius) / 5) + 1;
 
         circle.setOnMouseClicked(e -> {
-            score += points;
+            if (isRed) {
+                score -= 5;
+            }else {
+                score += points;
+            }
             scoreLabel.setText("Score: " + score);
             gameArea.getChildren().remove(circle);
 
